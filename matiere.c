@@ -10,29 +10,29 @@ int nbMatieres = 0;
 
 void ajouterMatiere() {
     if (nbMatieres >= TAILLE) {
-        printf("Nombre maximum de matières atteint.\n");
+        printf("Nombre maximum de matieres atteint.\n");
         return;
     }
 
     Matiere m;
-    printf("Code de la matière : ");
+    printf("Code de la matiere : ");
     scanf("%s", m.code);
-    printf("Nom de la matière : ");
+    printf("Nom de la matiere : ");
     scanf("%s", m.nom);
     printf("Coefficient : ");
     scanf("%d", &m.coefficient);
 
     tabMatieres[nbMatieres++] = m;
-    printf("Matière ajoutée avec succès !\n");
+    printf("Matiere ajoutee avec succes !\n");
 }
 
 void afficherMatieres() {
     if (nbMatieres == 0) {
-        printf("Aucune matière enregistrée.\n");
+        printf("Aucune matiere enregistree.\n");
         return;
     }
 
-    printf("\nListe des matières :\n");
+    printf("\nListe des matieres :\n");
     for (int i = 0; i < nbMatieres; i++) {
         printf("%d. Code: %s | Nom: %s | Coefficient: %d\n", i+1,
                tabMatieres[i].code, tabMatieres[i].nom, tabMatieres[i].coefficient);
@@ -49,7 +49,7 @@ int rechercherMatiere(char code[]) {
 
 void modifierMatiere() {
     char code[20];
-    printf("Entrer le code de la matière à modifier : ");
+    printf("Entrez le code de la matière à modifier : ");
     scanf("%s", code);
 
     int index = rechercherMatiere(code);
@@ -67,12 +67,12 @@ void modifierMatiere() {
 
 void supprimerMatiere() {
     char code[20];
-    printf("Entrer le code de la matière à supprimer : ");
+    printf("Entrer le code de la matiere à supprimer : ");
     scanf("%s", code);
 
     int index = rechercherMatiere(code);
     if (index == -1) {
-        printf("Matière non trouvée.\n");
+        printf("Matiere non trouvee.\n");
         return;
     }
 
@@ -80,17 +80,17 @@ void supprimerMatiere() {
         tabMatieres[i] = tabMatieres[i + 1];
     }
     nbMatieres--;
-    printf("Matière supprimée avec succès.\n");
+    printf("Matière supprimee avec succes.\n");
 }
 
 void menuMatieres() {
     int choix;
     do {
-        printf("\n--- MENU MATIÈRES ---\n");
-        printf("1. Ajouter une matière\n");
-        printf("2. Afficher les matières\n");
-        printf("3. Modifier une matière\n");
-        printf("4. Supprimer une matière\n");
+        printf("\n--- MENU MATIERES ---\n");
+        printf("1. Ajouter une matiere\n");
+        printf("2. Afficher les matieres\n");
+        printf("3. Modifier une matiere\n");
+        printf("4. Supprimer une matiere\n");
         printf("0. Retour\n");
         printf("Votre choix : ");
         scanf("%d", &choix);
