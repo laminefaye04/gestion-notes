@@ -39,19 +39,19 @@ void ajouterEtudiant() {
     printf("Code classe : "); scanf("%s", e.codeClasse);
 
     FILE *f = fopen("etudiants.csv", "a");
-    if (f == NULL) {
+    if (!f) {
         printf("Erreur lors de l'ouverture du fichier.\n");
         return;
     }
 
     fprintf(f, "%s,%s,%s,%s,%s,%s\n", e.matricule, e.nom, e.prenom, e.email, e.date_naissance, e.codeClasse);
     fclose(f);
-    printf("Etudiant ajoute avec succes !\n");
+    printf("Etudiant ajoute avec succes.\n");
 }
 
 void afficherEtudiants() {
     FILE *f = fopen("etudiants.csv", "r");
-    if (f == NULL) {
+    if (!f) {
         printf("Aucun etudiant trouve.\n");
         return;
     }
@@ -74,7 +74,7 @@ void rechercherEtudiant() {
     scanf("%s", mat);
 
     FILE *f = fopen("etudiants.csv", "r");
-    if (f == NULL) {
+    if (!f) {
         printf("Erreur d'ouverture.\n");
         return;
     }
@@ -91,8 +91,10 @@ void rechercherEtudiant() {
             break;
         }
     }
+
     fclose(f);
-    if (!trouve) printf("Etudiant non trouve.\n");
+    if (!trouve)
+        printf("Etudiant non trouve.\n");
 }
 
 void modifierEtudiant() {
@@ -102,15 +104,13 @@ void modifierEtudiant() {
 
     FILE *f = fopen("etudiants.csv", "r");
     FILE *temp = fopen("temp.csv", "w");
-
-    if (f == NULL || temp == NULL) {
+    if (!f || !temp) {
         printf("Erreur lors de l'ouverture.\n");
         return;
     }
 
     char ligne[300];
     int modifie = 0;
-
     while (fgets(ligne, sizeof(ligne), f)) {
         Etudiant e;
         sscanf(ligne, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]", e.matricule, e.nom, e.prenom, e.email, e.date_naissance, e.codeClasse);
@@ -125,7 +125,8 @@ void modifierEtudiant() {
         fprintf(temp, "%s,%s,%s,%s,%s,%s\n", e.matricule, e.nom, e.prenom, e.email, e.date_naissance, e.codeClasse);
     }
 
-    fclose(f); fclose(temp);
+    fclose(f);
+    fclose(temp);
     remove("etudiants.csv");
     rename("temp.csv", "etudiants.csv");
 
@@ -142,8 +143,7 @@ void supprimerEtudiant() {
 
     FILE *f = fopen("etudiants.csv", "r");
     FILE *temp = fopen("temp.csv", "w");
-
-    if (f == NULL || temp == NULL) {
+    if (!f || !temp) {
         printf("Erreur.\n");
         return;
     }
@@ -160,7 +160,8 @@ void supprimerEtudiant() {
         }
     }
 
-    fclose(f); fclose(temp);
+    fclose(f);
+    fclose(temp);
     remove("etudiants.csv");
     rename("temp.csv", "etudiants.csv");
 
