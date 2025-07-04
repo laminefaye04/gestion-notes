@@ -20,7 +20,7 @@ void menuClasses() {
         printf("Votre choix : ");
 
         if (scanf("%d", &choix) != 1) {
-            printf("Entrée invalide.\n");
+            printf("Entree invalide.\n");
             while(getchar() != '\n');
             continue;
         }
@@ -59,13 +59,13 @@ void ajouterClasse() {
 
     fprintf(f, "%s,%s,%s\n", c.codeClasse, c.nom, c.niveau);
     fclose(f);
-    printf("Classe ajoutée avec succès.\n");
+    printf("Classe ajoutee avec succes.\n");
 }
 
 void afficherClasses() {
     FILE *f = fopen(FICHIER_CLASSES, "r");
     if (!f) {
-        printf("Aucune classe trouvée.\n");
+        printf("Aucune classe trouvee.\n");
         return;
     }
 
@@ -82,7 +82,7 @@ void afficherClasses() {
 
 void rechercherClasse() {
     char code[10];
-    printf("Code de la classe à rechercher : ");
+    printf("Code de la classe a rechercher : ");
     scanf("%s", code);
 
     FILE *f = fopen(FICHIER_CLASSES, "r");
@@ -105,12 +105,12 @@ void rechercherClasse() {
 
     fclose(f);
     if (!trouve)
-        printf("Classe non trouvée.\n");
+        printf("Classe non trouvee.\n");
 }
 
 void modifierClasse() {
     char code[10];
-    printf("Code de la classe à modifier : ");
+    printf("Code de la classe a modifier : ");
     scanf("%s", code);
 
     FILE *f = fopen(FICHIER_CLASSES, "r");
@@ -178,7 +178,7 @@ void supprimerClasse() {
     rename(FICHIER_TEMP, FICHIER_CLASSES);
 
     if (supprime)
-        printf("Classe supprimée avec succès.\n");
+        printf("Classe supprimee avec succes.\n");
     else
-        printf("Classe non trouvée.\n");
+        printf("Classe non trouvee.\n");
 }
