@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "etudiant.h" // Pour accéder à menuEtudiants()
+#include "etudiant.h"
 #include "matiere.h"
 #include "note.h"
 #include "classe.h"
@@ -17,7 +17,7 @@ int main() {
         printf("3. Gestion des matieres\n");
         printf("4. Gestion des notes\n");
         printf("5. Quitter\n");
-        
+
         printf("Votre choix : ");
         scanf("%d", &choix);
 
@@ -26,10 +26,9 @@ int main() {
             case 2: menuClasses(); break;
             case 3: menuMatieres(); break;
             case 4: menuNotes(); break;
-            case 5: printf("A bientôt !\n"); break;
+            case 5: printf("A bientot !\n"); break;
             default: printf("Choix invalide.\n");
         }
-        
 
     } while (choix != 5);
 
