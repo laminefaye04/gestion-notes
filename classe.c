@@ -4,10 +4,13 @@
 #include "classe.h"
 #include "structure.h"
 
+#define FICHIER_CLASSES "classes.csv"
+#define FICHIER_TEMP "temp.csv"
+
 void menuClasses() {
     int choix;
     do {
-        printf("\n--- MENU CLASSES ---\n");
+        printf("\n=== MENU CLASSES ===\n");
         printf("1. Ajouter une classe\n");
         printf("2. Afficher toutes les classes\n");
         printf("3. Rechercher une classe\n");
@@ -15,7 +18,12 @@ void menuClasses() {
         printf("5. Supprimer une classe\n");
         printf("6. Retour\n");
         printf("Votre choix : ");
-        scanf("%d", &choix);
+
+        if (scanf("%d", &choix) != 1) {
+            printf("Entrée invalide.\n");
+            while(getchar() != '\n');
+            continue;
+        }
 
         switch (choix) {
             case 1: ajouterClasse(); break;
@@ -30,52 +38,56 @@ void menuClasses() {
     } while (choix != 6);
 }
 
-// Ajouter une classe
 void ajouterClasse() {
     Classe c;
-    printf("Code de la classe : "); scanf("%s", c.codeClasse);
-    printf("Nom de la classe : "); scanf("%s", c.nom);
-    printf("Niveau (Licence/Master) : "); scanf("%s", c.niveau);
 
-    FILE *f = fopen("classes.csv", "a");
-    if (f == NULL) {
-        printf("Erreur d'ouverture du fichier.\n");
+    printf("\n--- Ajout d'une classe ---\n");
+    printf("Code de la classe : ");
+    scanf("%s", c.codeClasse);
+
+    printf("Nom de la classe : ");
+    scanf("%s", c.nom);
+
+    printf("Niveau (Licence/Master) : ");
+    scanf("%s", c.niveau);
+
+    FILE *f = fopen(FICHIER_CLASSES, "a");
+    if (!f) {
+        perror("Erreur lors de l'ouverture du fichier");
         return;
     }
 
     fprintf(f, "%s,%s,%s\n", c.codeClasse, c.nom, c.niveau);
     fclose(f);
-    printf("Classe ajoutee avec succes.\n");
+    printf("Classe ajoutée avec succès.\n");
 }
 
-// Afficher toutes les classes
 void afficherClasses() {
-    FILE *f = fopen("classes.csv", "r");
-    if (f == NULL) {
-        printf("Aucune classe trouvee.\n");
+    FILE *f = fopen(FICHIER_CLASSES, "r");
+    if (!f) {
+        printf("Aucune classe trouvée.\n");
         return;
     }
 
     char ligne[150];
-    printf("\n--- Liste des classes ---\n");
+    printf("\n=== Liste des classes ===\n");
     while (fgets(ligne, sizeof(ligne), f)) {
         Classe c;
         sscanf(ligne, "%[^,],%[^,],%[^\n]", c.codeClasse, c.nom, c.niveau);
-        printf("Code : %s | Nom : %s | Niveau : %s\n", c.codeClasse, c.nom, c.niveau);
+        printf("Code : %-10s | Nom : %-15s | Niveau : %s\n", c.codeClasse, c.nom, c.niveau);
     }
 
     fclose(f);
 }
 
-// Rechercher une classe
 void rechercherClasse() {
     char code[10];
-    printf("Entrer le code de la classe a rechercher : ");
+    printf("Code de la classe à rechercher : ");
     scanf("%s", code);
 
-    FILE *f = fopen("classes.csv", "r");
-    if (f == NULL) {
-        printf("Erreur d'ouverture.\n");
+    FILE *f = fopen(FICHIER_CLASSES, "r");
+    if (!f) {
+        perror("Erreur d'ouverture");
         return;
     }
 
@@ -85,69 +97,70 @@ void rechercherClasse() {
         Classe c;
         sscanf(ligne, "%[^,],%[^,],%[^\n]", c.codeClasse, c.nom, c.niveau);
         if (strcmp(c.codeClasse, code) == 0) {
-            printf("Classe trouvee : %s - %s - Niveau : %s\n", c.codeClasse, c.nom, c.niveau);
+            printf("Classe trouvée : %s - %s - Niveau : %s\n", c.codeClasse, c.nom, c.niveau);
             trouve = 1;
             break;
         }
     }
 
     fclose(f);
-    if (!trouve) printf("Classe non trouvee.\n");
+    if (!trouve)
+        printf("Classe non trouvée.\n");
 }
 
-// Modifier une classe
 void modifierClasse() {
     char code[10];
-    printf("Code de la classe a modifier : ");
+    printf("Code de la classe à modifier : ");
     scanf("%s", code);
 
-    FILE *f = fopen("classes.csv", "r");
-    FILE *temp = fopen("temp.csv", "w");
-    if (f == NULL || temp == NULL) {
-        printf("Erreur d'ouverture.\n");
+    FILE *f = fopen(FICHIER_CLASSES, "r");
+    FILE *temp = fopen(FICHIER_TEMP, "w");
+    if (!f || !temp) {
+        perror("Erreur d'ouverture des fichiers");
         return;
     }
 
     char ligne[150];
     int modifie = 0;
-
     while (fgets(ligne, sizeof(ligne), f)) {
         Classe c;
         sscanf(ligne, "%[^,],%[^,],%[^\n]", c.codeClasse, c.nom, c.niveau);
         if (strcmp(c.codeClasse, code) == 0) {
-            printf("Nouveau nom : "); scanf("%s", c.nom);
-            printf("Nouveau niveau : "); scanf("%s", c.niveau);
+            printf("Nouveau nom : ");
+            scanf("%s", c.nom);
+            printf("Nouveau niveau : ");
+            scanf("%s", c.niveau);
             modifie = 1;
         }
         fprintf(temp, "%s,%s,%s\n", c.codeClasse, c.nom, c.niveau);
     }
 
-    fclose(f); fclose(temp);
-    remove("classes.csv");
-    rename("temp.csv", "classes.csv");
+    fclose(f);
+    fclose(temp);
+
+    remove(FICHIER_CLASSES);
+    rename(FICHIER_TEMP, FICHIER_CLASSES);
 
     if (modifie)
-        printf("Classe modifiee avec succes.\n");
+        printf("Classe modifiée avec succès.\n");
     else
-        printf("Classe non trouvee.\n");
+        printf("Classe non trouvée.\n");
 }
 
-// Supprimer une classe
 void supprimerClasse() {
     char code[10];
-    printf("Code de la classe a supprimer : ");
+    printf("Code de la classe à supprimer : ");
     scanf("%s", code);
 
-    FILE *f = fopen("classes.csv", "r");
-    FILE *temp = fopen("temp.csv", "w");
-    if (f == NULL || temp == NULL) {
-        printf("Erreur d'ouverture.\n");
+    FILE *f = fopen(FICHIER_CLASSES, "r");
+    FILE *temp = fopen(FICHIER_TEMP, "w");
+    if (!f || !temp) {
+        perror("Erreur d'ouverture des fichiers");
         return;
     }
 
     char ligne[150];
     int supprime = 0;
-
     while (fgets(ligne, sizeof(ligne), f)) {
         Classe c;
         sscanf(ligne, "%[^,],%[^,],%[^\n]", c.codeClasse, c.nom, c.niveau);
@@ -158,12 +171,14 @@ void supprimerClasse() {
         }
     }
 
-    fclose(f); fclose(temp);
-    remove("classes.csv");
-    rename("temp.csv", "classes.csv");
+    fclose(f);
+    fclose(temp);
+
+    remove(FICHIER_CLASSES);
+    rename(FICHIER_TEMP, FICHIER_CLASSES);
 
     if (supprime)
-        printf("Classe supprimee avec succes.\n");
+        printf("Classe supprimée avec succès.\n");
     else
-        printf("Classe non trouvee.\n");
+        printf("Classe non trouvée.\n");
 }
