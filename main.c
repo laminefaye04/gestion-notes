@@ -12,9 +12,9 @@ int main() {
         printf("\n=========================\n");
         printf("   GESTION DES NOTES C   \n");
         printf("=========================\n");
-        printf("1. Gestion des étudiants\n");
+        printf("1. Gestion des etudiants\n");
         printf("2. Gestion des classes\n");
-        printf("3. Gestion des matières\n");
+        printf("3. Gestion des matieres\n");
         printf("4. Gestion des notes\n");
         printf("5. Quitter\n");
         
@@ -26,7 +26,7 @@ int main() {
             case 2: menuClasses(); break;
             case 3: menuMatieres(); break;
             case 4: menuNotes(); break;
-            case 5: printf("À bientôt !\n"); break;
+            case 5: printf("A bientôt !\n"); break;
             default: printf("Choix invalide.\n");
         }
         
