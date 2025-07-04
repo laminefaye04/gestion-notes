@@ -34,7 +34,7 @@ void afficherMatieres() {
 
     printf("\nListe des matieres :\n");
     for (int i = 0; i < nbMatieres; i++) {
-        printf("%d. Code: %s | Nom: %s | Coefficient: %d\n", i+1,
+        printf("%d. Code: %s | Nom: %s | Coefficient: %d\n", i + 1,
                tabMatieres[i].code, tabMatieres[i].nom, tabMatieres[i].coefficient);
     }
 }
@@ -49,12 +49,12 @@ int rechercherMatiere(char code[]) {
 
 void modifierMatiere() {
     char code[20];
-    printf("Entrez le code de la matière à modifier : ");
+    printf("Entrez le code de la matiere a modifier : ");
     scanf("%s", code);
 
     int index = rechercherMatiere(code);
     if (index == -1) {
-        printf("Matière non trouvée.\n");
+        printf("Matiere non trouvee.\n");
         return;
     }
 
@@ -62,12 +62,12 @@ void modifierMatiere() {
     scanf("%s", tabMatieres[index].nom);
     printf("Nouveau coefficient : ");
     scanf("%d", &tabMatieres[index].coefficient);
-    printf("Matière modifiée avec succès.\n");
+    printf("Matiere modifiee avec succes.\n");
 }
 
 void supprimerMatiere() {
     char code[20];
-    printf("Entrer le code de la matiere à supprimer : ");
+    printf("Entrer le code de la matiere a supprimer : ");
     scanf("%s", code);
 
     int index = rechercherMatiere(code);
@@ -80,7 +80,7 @@ void supprimerMatiere() {
         tabMatieres[i] = tabMatieres[i + 1];
     }
     nbMatieres--;
-    printf("Matière supprimee avec succes.\n");
+    printf("Matiere supprimee avec succes.\n");
 }
 
 void menuMatieres() {
